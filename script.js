@@ -1,25 +1,21 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const productsRootPath = 'products';
     const catalogContainer = document.getElementById('catalog-container');
-    const overlay = document.querySelector('.page-transition-overlay');
+    const mainContent = document.querySelector('main');
 
-    // --- ЛОГИКА АНИМАЦИИ ПЕРЕХОДОВ (НОВЫЙ МЕТОД) ---
-    // 1. Плавно скрываем оверлей при загрузке страницы
-    if (overlay) {
-        overlay.classList.add('is-hidden');
-    }
+    // --- ЛОГИКА АНИМАЦИИ ПЕРЕХОДОВ ---
+    // 1. Плавное появление контента при загрузке страницы
+    mainContent.classList.add('is-visible');
 
-    // 2. Функция для навигации: сначала показываем оверлей, потом переходим
+    // 2. Функция для навигации с анимацией затухания
     const navigateWithTransition = (url) => {
-        if (overlay) {
-            overlay.classList.remove('is-hidden');
-        }
+        mainContent.classList.remove('is-visible'); // Убираем видимость
+        mainContent.classList.add('is-leaving');  // Добавляем класс для анимации затухания
         setTimeout(() => {
-            window.location.href = url;
-        }, 400); // Задержка равна времени анимации оверлея
+            window.location.href = url; // Переходим на новую страницу после анимации
+        }, 400); // Задержка должна совпадать со временем анимации в CSS (transition: opacity 0.4s)
     };
-    
-    // --- ВОЗВРАЩАЕМ ЛОГИКУ КЭШИРОВАНИЯ ---
+
     const getProductData = async () => {
         const cachedData = sessionStorage.getItem('allProductsData');
         if (cachedData) {
@@ -120,11 +116,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
         }
 
+        // --- ИЗМЕНЕНИЕ ЗДЕСЬ: Добавляем обработчики кликов после отрисовки ---
         document.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('click', (event) => {
-                event.preventDefault();
+                event.preventDefault(); // Отменяем стандартный переход по ссылке
                 const url = card.href;
-                navigateWithTransition(url);
+                navigateWithTransition(url); // Запускаем нашу функцию перехода с анимацией
             });
         });
 

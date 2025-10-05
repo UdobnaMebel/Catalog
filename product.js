@@ -1,32 +1,32 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const productsRootPath = 'products';
     const productDetailContainer = document.getElementById('product-detail-container');
-    const overlay = document.querySelector('.page-transition-overlay');
+    const mainContent = document.querySelector('main');
 
-    // --- ЛОГИКА АНИМАЦИИ ПЕРЕХОДОВ (НОВЫЙ МЕТОД) ---
-    if (overlay) {
-        overlay.classList.add('is-hidden');
-    }
+    // --- ЛОГИКА АНИМАЦИИ ПЕРЕХОДОВ ---
+    // 1. Плавное появление контента при загрузке страницы
+    mainContent.classList.add('is-visible');
 
+    // 2. Функция для навигации с анимацией затухания
     const navigateWithTransition = (url) => {
-        if (overlay) {
-            overlay.classList.remove('is-hidden');
-        }
+        mainContent.classList.remove('is-visible');
+        mainContent.classList.add('is-leaving');
         setTimeout(() => {
             window.location.href = url;
         }, 400);
     };
 
+    // 3. Добавляем обработчик клика для кнопки "Назад"
     const backLink = document.querySelector('.back-link');
     if (backLink) {
         backLink.addEventListener('click', (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Отменяем стандартный переход
             const url = backLink.href;
-            navigateWithTransition(url);
+            navigateWithTransition(url); // Запускаем переход с анимацией
         });
     }
 
-    // --- КОД ЗАГРУЗКИ ТОВАРА ---
+    // --- КОД ЗАГРУЗКИ ТОВАРА (без изменений) ---
     let globalButtonLink = '';
     try {
         const linkResponse = await fetch(`${productsRootPath}/link.txt`);
@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("КРИТИЧЕСКАЯ ОШИБКА: Не удалось загрузить обязательный файл products/link.txt. Кнопка заказа не будет работать.", error);
     }
 
-    // --- ВОЗВРАЩАЕМ ЛОГИКУ КЭШИРОВАНИЯ ---
     const getProductData = async () => {
         const cachedData = sessionStorage.getItem('allProductsData');
         if (cachedData) {
