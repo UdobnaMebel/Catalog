@@ -1,0 +1,367 @@
+/* --- ЦВЕТОВАЯ ПАЛИТРА И ШРИФТЫ (ФИНАЛЬНЫЙ СТИЛЬ) --- */
+:root {
+    --bg-dark: #121212;
+    --surface-color: #1E1E1E;
+    --border-color: #2C2C2C;
+    --accent-yellow: #FEE440;
+    --accent-yellow-hover: #FFEC78;
+    --text-primary: #FFFFFF;
+    --text-secondary: #8E8E93;
+    --font-family: 'Nunito Sans', sans-serif;
+}
+
+/* --- ОБЩИЕ СТИЛИ И НОВЫЙ ФОН --- */
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    background-color: var(--bg-dark);
+    background-image: url('mesh-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-primary);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* --- ШАПКА --- */
+.header {
+    padding: 25px 0;
+    background-color: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.header h1 {
+    margin: 0;
+    font-size: 2.2em;
+    font-weight: 900;
+    color: var(--text-primary);
+    text-align: center;
+}
+.back-link {
+    font-size: 1.1em;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.back-link:hover {
+    color: var(--text-primary);
+}
+
+/* --- Стили и анимация для логотипа --- */
+.header-logo {
+    display: block;
+    margin: 0 auto;
+    max-width: 250px;
+    height: auto;
+    animation: logoFadeIn 1s ease-out forwards;
+}
+
+@keyframes logoFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- УПРОЩЕННАЯ АНИМАЦИЯ ПОЯВЛЕНИЯ --- */
+main {
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+main.is-visible {
+    opacity: 1;
+}
+
+/* --- СТИЛИ ГЛАВНОЙ СТРАНИЦЫ --- */
+.category-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin: 50px 0 25px;
+    cursor: pointer;
+}
+.category-header:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent-yellow), transparent);
+    opacity: 0.5;
+}
+.category-title {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+.category-header h2 {
+    margin: 0;
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.product-count {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--accent-yellow);
+}
+.category-toggle-icon {
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: transform 0.3s ease;
+}
+.category-header.collapsed .category-toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    max-height: 5000px;
+    transition: max-height 0.5s ease-in-out, opacity 0.4s ease, visibility 0.4s ease;
+}
+@media (min-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+    }
+}
+
+.product-grid.collapsed {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.product-card {
+    display: grid;
+    grid-template-areas: "card-content";
+    position: relative;
+    background-color: var(--surface-color);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+.product-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px -5px var(--accent-yellow-hover);
+    z-index: 10;
+}
+
+.product-card-image {
+    grid-area: card-content;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    image-rendering: high-quality;
+}
+
+.product-card-content {
+    grid-area: card-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 15px;
+    background: linear-gradient(to top, rgba(18, 18, 18, 0.95) 15%, transparent 60%);
+    position: static;
+    z-index: auto;
+    margin-top: 0;
+}
+.product-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+.product-card-price {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+.product-card-price .old-price {
+    font-size: 0.7em;
+    font-weight: 400;
+    text-decoration: line-through;
+    color: var(--text-secondary);
+    margin-left: 0;
+}
+
+/* --- СТИЛИ СТРАНИЦЫ ТОВАРА --- */
+
+.product-detail {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+@media (min-width: 992px) {
+    .product-detail {
+        grid-template-columns: 1.2fr 1fr;
+        gap: 50px;
+    }
+}
+
+.slider-container {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: height 0.4s ease-in-out;
+}
+
+.slider-wrapper {
+    display: flex;
+    align-items: flex-start;
+    transition: transform 0.4s ease-in-out;
+}
+
+.slider-image {
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    z-index: 10;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.slider-btn.prev {
+    left: 15px;
+}
+
+.slider-btn.next {
+    right: 15px;
+}
+
+.product-info h2 {
+    font-size: 2.8em;
+    font-weight: 900;
+    margin-top: 0;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.product-info .price {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.product-info .price .old-price {
+    font-size: 0.7em;
+    font-weight: 400;
+    text-decoration: line-through;
+    color: var(--text-secondary);
+    margin-left: 0;
+}
+
+.product-info .description h3 {
+    font-size: 1.5em;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.product-info .description div {
+    white-space: pre-wrap;
+    line-height: 1.8;
+    font-size: 1.1em;
+    color: var(--text-secondary);
+}
+
+.whatsapp-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 30px;
+    padding: 18px 35px;
+    background-color: var(--accent-yellow);
+    color: #000000;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1.2em;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.whatsapp-button:hover {
+    background-color: var(--accent-yellow-hover);
+    transform: scale(1.02);
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--text-secondary);
+    border-top-color: var(--accent-yellow);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 50px auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.product-info .description a {
+    color: var(--accent-yellow);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s ease;
+}
+
+.product-info .description a:hover {
+    color: var(--accent-yellow-hover);
+    text-decoration: underline;
+}
