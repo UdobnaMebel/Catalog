@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const price = await priceRes.text();
             const oldPrice = oldPriceRes.ok ? await oldPriceRes.text() : null;
 
-            // Ищем только первую картинку
             let coverImage = 'https://via.placeholder.com/300?text=No+Image';
             for (const ext of ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'PNG']) {
                 const imgPath = `${productPath}/image1.${ext}`;
@@ -52,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const categoryElement = document.createElement('section');
             categoryElement.className = 'category-section';
 
-            let productsHTML = `<div class="loader"></div>`; // Показываем загрузчик для каждой категории
+            let productsHTML = `<div class="loader"></div>`;
 
             categoryElement.innerHTML = `
                 <div class="category-header">
@@ -74,9 +73,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let priceHTML = p.price > 0 ? `${p.price.toLocaleString('ru-RU')}&nbsp;₽` : 'Цена по запросу';
                 const oldPriceHTML = p.oldPrice ? `<span class="old-price">${p.oldPrice.toLocaleString('ru-RU')}&nbsp;₽</span>` : '';
 
+                // --- ИЗМЕНЕНИЕ ЗДЕСЬ: ДОБАВЛЕН loading="lazy" ---
                 productsHTML += `
                     <a href="product.html?id=${p.id}" class="product-card">
-                        <img src="${p.coverImage}" alt="${p.name}" class="product-card-image">
+                        <img src="${p.coverImage}" alt="${p.name}" class="product-card-image" loading="lazy">
                         <div class="product-card-content">
                             <h3>${p.name}</h3>
                             <div class="product-card-price">${priceHTML}${oldPriceHTML}</div>
