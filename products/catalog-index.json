@@ -3,12 +3,102 @@
     {
       "categoryName": "Кровати-трансформеры 😍",
       "folder": "1.beds",
-      "products": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14" ]
+      "products": [
+        {
+          "folder": "1",
+          "images": [ "image1.png", "image2.png", "image3.png" ]
+        },
+        {
+          "folder": "2",
+          "images": [ "image1.png", "image2.png", "image3.png", "image4.png" ]
+        },
+        {
+          "folder": "3",
+          "images": [ "image1.png", "image2.png" ]
+        },
+        {
+          "folder": "4",
+          "images": [ "image1.jpeg", "image2.png", "image3.png" ]
+        },
+        {
+          "folder": "5",
+          "images": [ "image1.png", "image2.png", "image3.png", "image4.png" ]
+        },
+        {
+          "folder": "6",
+          "images": [ "image1.png", "image2.png", "image3.png" ]
+        },
+        {
+          "folder": "7",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg" ]
+        },
+        {
+          "folder": "8",
+          "images": [ "image1.jpg", "image2.jpg" ]
+        },
+        {
+          "folder": "9",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg"  ]
+        },
+        {
+          "folder": "10",
+          "images": [ "image1.png", "image2.png", "image3.png", "image4.png" ]
+        },
+        {
+          "folder": "11",
+          "images": [ "image1.png", "image2.png", "image3.png", "image4.png" ]
+        },
+        {
+          "folder": "12",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg" ]
+        },
+        {
+          "folder": "13",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg" ]
+        },
+        {
+          "folder": "14",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg" ]
+        }
+      ]
     },
     {
       "categoryName": "Кухни 🔥",
       "folder": "2_kitchens",
-      "products": [ "1", "2", "3", "4", "5", "6", "7", "8" ]
+      "products": [
+        {
+          "folder": "1",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg" ]
+        },
+        {
+          "folder": "2",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg" ]
+        },
+        {
+          "folder": "3",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg" ]
+        },
+        {
+          "folder": "4",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg" ]
+        },
+        {
+          "folder": "5",
+          "images": [ "image1.jpg", "image2.jpg" ]
+        },
+        {
+          "folder": "6",
+          "images": [ "image1.jpg", "image2.jpg" ]
+        },
+        {
+          "folder": "7",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg" ]
+        },
+        {
+          "folder": "8",
+          "images": [ "image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg" ]
+        }
+      ]
     }
   ]
 }

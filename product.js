@@ -29,9 +29,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Не удалось загрузить products/link.txt.", error);
     }
     
-    const getProductDetails = async (categoryFolder, productFolder) => {
+    // Функция для загрузки данных ОДНОГО товара
+    const getProductDetails = async (categoryFolder, productFolder, imageFiles) => {
         const productPath = `${productsRootPath}/${categoryFolder}/${productFolder}`;
         
+        // Загружаем текстовые файлы
         const nameRes = await fetch(`${productPath}/name.txt`);
         const priceRes = await fetch(`${productPath}/price.txt`);
         const oldPriceRes = await fetch(`${productPath}/old_price.txt`);
@@ -42,21 +44,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const oldPrice = oldPriceRes.ok ? await oldPriceRes.text() : null;
         const description = descriptionRes.ok ? await descriptionRes.text() : "Описание отсутствует.";
 
-        const images = [];
-        for (let j = 1; j < 15; j++) {
-            let foundImage = false;
-            for (const ext of ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'PNG']) {
-                const imgPath = `${productPath}/image${j}.${ext}`;
-                const res = await fetch(imgPath, { method: 'HEAD' });
-                if (res.ok) {
-                    images.push(imgPath);
-                    foundImage = true;
-                    break;
-                }
-            }
-            if (!foundImage && images.length > 0) break;
+        // БОЛЬШЕ НИКАКОГО ПОИСКА! Просто строим пути из известных имен.
+        const images = imageFiles.map(file => `${productPath}/${file}`);
+        if (images.length === 0) {
+            images.push('https://via.placeholder.com/800x600?text=No+Image');
         }
-        if (images.length === 0) images.push('https://via.placeholder.com/800x600?text=No+Image');
 
         return {
             name: name.trim(),
@@ -66,7 +58,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             images: images
         };
     };
-
 
     const renderProduct = (product) => {
         document.title = product.name;
@@ -86,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="price">${priceHTML}${oldPriceHTML}</div>
                     <div class="description">
                         <h3>Описание</h3>
-                        <div>${product.description}</div>
+                        <div>${product.description.replace(/\n/g, '<br>')}</div>
                     </div>
                     <a href="${globalButtonLink}" target="_blank" class="whatsapp-button">Написать для заказа</a>
                 </div>
@@ -134,7 +125,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const [categoryFolder, productFolder] = productId.split('-');
         if (!categoryFolder || !productFolder) throw new Error('Некорректный ID товара');
 
-        const product = await getProductDetails(categoryFolder, productFolder);
+        // Загружаем "карту", чтобы найти нужный товар
+        const indexResponse = await fetch(`${productsRootPath}/catalog-index.json`);
+        const indexData = await indexResponse.json();
+        
+        const category = indexData.categories.find(c => c.folder === categoryFolder);
+        const productInfo = category.products.find(p => p.folder === productFolder);
+        
+        if (!productInfo) throw new Error('Товар не найден в index.json');
+
+        const product = await getProductDetails(categoryFolder, productFolder, productInfo.images);
         renderProduct(product);
     } catch(error) {
         console.error("КРИТИЧЕСКАЯ ОШИБКА: Не удалось загрузить данные о товаре.", error);
